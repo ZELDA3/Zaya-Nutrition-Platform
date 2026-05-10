@@ -1,7 +1,16 @@
 from django.shortcuts import render
 from .models import Profile, Group, Nutrition_plan, Food, DefaultPlan
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
+
+
+class SignUpView(CreateView):
+    template_name = "registration/signup.html"
+    form_class = UserCreationForm
+    success_url = "/login"  # or your home
 
 
 def homepage(request):
@@ -73,12 +82,3 @@ def generate_user_plan(user, profile):
     new_plan.customized_foods.set(safe_foods)
 
     return new_plan
-
-
-from django.contrib.auth.forms import UserCreationForm
-
-
-class SignUpView(CreateView):
-    template_name = "registration/signup.html"
-    form_class = UserCreationForm
-    success_url = "/login"  # or your home
