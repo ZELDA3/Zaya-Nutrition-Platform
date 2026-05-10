@@ -8,6 +8,10 @@ def homepage(request):
     return render(request, "homepage.html")
 
 
+def AboutUs(request):
+    return render(request, "about-us.html")
+
+
 from django.views.generic import (
     ListView,
     DetailView,
@@ -19,3 +23,5 @@ from django.views.generic import (
 
 class Nutrition_planListView(ListView):
     model = Nutrition_plan
+    template_name = "plans/plan-list.html"
+    context_object_name = "plans"

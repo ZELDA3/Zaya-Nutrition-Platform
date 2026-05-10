@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+
+
+{% block head %}
+
+
+{% endblock head %}
+
+
+{% block content %}
+<h1>All Plans</h1>
+
+{% for plan in plans %}
+<p>{{plan.plan_name}} - {{plan.is_active}} - {{plan.foods}}</p>
+<a href="/plans/{{plan.id}}">Look up the Details</a>
+
+
+{%empty%}
+<p> Your Plan Is Coming Soon!</p>
+
+{% endfor %}
+
+
+
+{% endfor %}
+
+{% endblock content %}
