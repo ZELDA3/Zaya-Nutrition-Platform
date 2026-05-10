@@ -1,3 +1,29 @@
 body {
-  background-color: rgb(107, 209, 158);
+  background-color: beige;
+}
+h1 {
+  color: burlywood;
+  text-align: center;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+p {
+  color: white;
+  font-size: 30px;
+  text-align: center;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+img {
+  width: 1500px;
+  height: 750px;
+  margin: 200px;
+}
+nav a {
+  color: white;
+  font-size: 30px;
+}
+
+a:hover {
+  color: pink;
+  text-decoration: underline;
 }

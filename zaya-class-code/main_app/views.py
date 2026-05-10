@@ -1,16 +1,11 @@
-from django.shortcuts import render
-from .models import Profile, Group, Nutrition_plan, Food, DefaultPlan
+from django.shortcuts import render, redirect
+from .models import Profile, Group, NutritionPlan, Food, DefaultPlan
+from .forms import ProfileForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
-
-
-class SignUpView(CreateView):
-    template_name = "registration/signup.html"
-    form_class = UserCreationForm
-    success_url = "/login"  # or your home
 
 
 def homepage(request):
@@ -30,8 +25,37 @@ from django.views.generic import (
 )
 
 
-class Nutrition_planListView(ListView):
-    model = Nutrition_plan
+class ProfileCreateView(LoginRequiredMixin, CreateView):
+    model = Profile
+    form_class = ProfileForm
+    template_name = "profiles/profile-form.html"
+    success_url = "/"
+
+
+class SignUpView(CreateView):
+    template_name = "registration/signup.html"
+    form_class = UserCreationForm
+    success_url = "/auth/login"  # or your home
+
+    # class DeveloperCreateView(CreateView):
+    #     model = Developer
+    #     form_class = DeveloperForm
+    #     template_name = "developers/developer-form.html"
+    #     success_url = "/developers/"
+
+    # def form_valid(self, form):
+    #     profile = form.save(commit=False)
+    #     profile.user = self.request.user
+    #     profile.save()
+
+    #     # Generate plan immediately after profile is saved
+    #     generate_user_plan(self.request.user, profile)
+
+    #     return super().form_valid(form)
+
+
+class NutritionPlanListView(ListView):
+    model = NutritionPlan
     template_name = "plans/plan-list.html"
     context_object_name = "plans"
 

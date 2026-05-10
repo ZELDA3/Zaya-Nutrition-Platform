@@ -47,7 +47,8 @@ class Profile(models.Model):
 class Food(models.Model):
     name = models.CharField(max_length=100)
     calories = models.IntegerField()
-    ingredients = models.TextField(help_text="Comma separated list of ingredients")
+    # Adding null=True and blank=True lets the database accept empty values
+    ingredients = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to="food_pics/", blank=True)
 
     def __str__(self):

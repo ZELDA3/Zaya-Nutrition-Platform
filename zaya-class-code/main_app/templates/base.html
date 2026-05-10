@@ -10,21 +10,26 @@
     <nav>
         <a href="/">Homepage</a>
         <a href="/about">About Us</a>
+                {% if user.is_authenticated %}
+<a href="/profile">Profile</a>
         <a href="/plans">All Plans</a>
         <span>Welcome {{user.username}}</span>
-
-        <form method='post' action="/auth/logout/">
+  <form method='post' action="/auth/logout/">
 
             {% csrf_token %}
             <button>Log Out</button>
 
-        </form>
             {% else %}
             <a href="/auth/login">Login</a>
             <a href="/sign-up">Signup</a>
             {% endif %}
-    </nav>
-    {% block content %}{% endblock content %}
+        </form>
+        </nav>
+    {% block content %}
+
+
+
+
+    {% endblock content %}
 </body>
 </html>
-

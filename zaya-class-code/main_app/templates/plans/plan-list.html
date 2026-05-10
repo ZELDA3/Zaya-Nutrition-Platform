@@ -12,17 +12,14 @@
 <h1>All Plans</h1>
 
 {% for plan in plans %}
-<p>{{plan.plan_name}} - {{plan.is_active}} - {{plan.foods}}</p>
+<p>{{plan.user}} - {{plan. daily_calorie_target}} - {{plan.special_notes}}</p>
 <a href="/plans/{{plan.id}}">Look up the Details</a>
 
 
 {%empty%}
-<p> Your Plan Is Coming Soon!</p>
+<p> Your Plan Is Being generated!</p>
 
 {% endfor %}
 
-
-
-{% endfor %}
 
 {% endblock content %}
