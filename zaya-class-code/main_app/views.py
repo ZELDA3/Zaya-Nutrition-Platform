@@ -32,6 +32,28 @@ class ProfileCreateView(LoginRequiredMixin, CreateView):
     success_url = "/"
 
 
+# Update Profile (U in CRUD)
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = ProfileForm
+    template_name = "profiles/profile-form.html"
+    success_url = "/profile/detail/"  # Create a detail view or redirect to home
+
+
+# Delete Profile (D in CRUD)
+class ProfileDeleteView(LoginRequiredMixin, DeleteView):
+    model = Profile
+    template_name = "profiles/profile-confirm-delete.html"
+    success_url = "/"
+
+
+# Detail View (R in CRUD - to see their specific health stats)
+class ProfileDetailView(LoginRequiredMixin, DetailView):
+    model = Profile
+    template_name = "profiles/profile-detail.html"
+    context_object_name = "profile"
+
+
 class SignUpView(CreateView):
     template_name = "registration/signup.html"
     form_class = UserCreationForm
