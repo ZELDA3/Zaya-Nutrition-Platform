@@ -17,12 +17,23 @@
 
 {% for food in foods %}
 
-<p>Name: {{food.name}}</p>
+{% comment %} <p>Name: {{food.name}}</p>
 <p>Calories: {{food.calories}}</p>
 <p>Ingredients: {{food.ingredients}}</p>
 <p>Image: {{food.image}}</p>
+<img src="/media/{{food.image}}" alt="image"> {% endcomment %}
 
-
+<div class="card" style="width: 18rem;">
+  <img src="/media/{{food.image}}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Name: {{food.name}}</h5>
+    <p class="card-text">Calories: {{food.calories}}
+      <br>
+Ingredients: {{food.ingredients}}
+    </p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
 <hr>
 {% endfor %}
 {% endblock content %}
