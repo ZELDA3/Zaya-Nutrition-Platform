@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>User Health Profile</h1>
+
+<div class="profile-header">
+    <h2>Welcome, {{ profile.user.username }}</h2>
+    <p><strong>Age:</strong> {{ profile.age }} | <strong>Height:</strong> {{ profile.height }}cm</p>
+    <p><strong>Current Weight:</strong> {{ profile.current_weight }}kg | <strong>Target:</strong> {{ profile.target_weight }}kg</p>
+    <p><strong>Activity:</strong> {{ profile.get_activity_level_display }}</p>
+</div>
+
+<hr>
+
+<h3>Medical And Dietary Considerations</h3>
+{% if profile.allergies or profile.dietary_restrictions or profile.illness_history %}
+    <ul>
+        {% if profile.allergies %}
+            <li><strong>Allergies:</strong> {{ profile.allergies }}</li>
+        {% endif %}
+        {% if profile.dietary_restrictions %}
+            <li><strong>Restrictions:</strong> {{ profile.dietary_restrictions }}</li>
+        {% endif %}
+        {% if profile.illness_history %}
+            <li><strong>History:</strong> {{ profile.illness_history }}</li>
+        {% endif %}
+    </ul>
+{% else %}
+    <p>No medical restrictions reported.</p>
+{% endif %}
+
+{% if profile.group %}
+    <div style="background-color: #f0fdf4; padding: 15px; border-left: 5px solid #16a34a;">
+        <h4>Feedback from {{ profile.group.name }}</h4>
+        <p>{{ profile.group.wellness_advice }}</p>
+    </div>
+{% endif %}
+
+<div style="margin-top: 30px;">
+    <a href="{% url 'profile_update' profile.pk %}">Update Profile</a> |
+    <a href="{% url 'plan_list' %}">Go to Meal Plan</a>
+
+</div>
+
+
+
+
+
+
+{% endblock content %}

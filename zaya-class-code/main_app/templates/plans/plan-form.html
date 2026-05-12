@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+
+
+{% block head %}
+
+
+
+{% endblock head %}
+
+
+
+{% block content %}
+
+{% if form form.instance.id %}
+<h1>Edit Plan</h1>
+{% else %}
+<h1>Create A new Plan</h1>
+{% endif %}
+
+
+<form method="post">
+{% csrf_token %}
+{{form.as_p}}
+
+{% if form.instance.id %}
+{% csrf_token %}
+<button>Update Plan Details</button>
+{% else %}
+<button>Create a new Plan</button>
+{% endif %}
+
+
+</form>
+
+{% endblock content %}
+
+
+

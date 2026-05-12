@@ -1,45 +1,36 @@
 {% extends "base.html" %}
 
-
-
-{% block head %}
-
-<style>
-
-</style>
-
-{% endblock head %}
-
-
-
 {% block content %}
 
-
 {% if form.instance.id %}
-<h1>Edit profile</h1>
+    <h1>Edit Profile</h1>
 {% else %}
-<h1>Create Profile</h1>
+    <h1>Create Profile</h1>
 {% endif %}
 
 <form method="post">
-{% csrf_token %}
-{{form.as_p}}
-  {% if form.instance.id %}
-        <button>Update Profile Details</button>
-        {% else %}
-        <button>Create A New Profile</button>
+    {% csrf_token %}
+    {{ form.as_p }}
 
-        {% endif %}
-    </form>
-
-
-
+    {% if form.instance.id %}
+        <button type="submit">Update Profile Details</button>
+    {% else %}
+        <button type="submit">Create A New Profile</button>
+    {% endif %}
 </form>
+
+<hr>
+
+{% if form.instance.id %}
+    <div style="margin-top: 20px;">
+        <p>Once you delete your profile, it cannot be undone.</p>
+        <form method="post" action="{% url 'profile_delete' form.instance.pk %}">
+            {% csrf_token %}
+            <button type="submit" style="color: white; background-color: red; border: none; padding: 10px;">
+                Delete Profile
+            </button>
+        </form>
+    </div>
+{% endif %}
+
 {% endblock content %}
-
-
-
-
-
-
-

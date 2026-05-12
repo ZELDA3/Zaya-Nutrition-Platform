@@ -1,13 +1,18 @@
 from django.shortcuts import render, redirect
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
 from .models import Profile, Group, NutritionPlan, Food, DefaultPlan
 from .forms import ProfileForm
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.forms import UserCreationForm
-
-# Create your views here.
 
 
+# -- Basic Views --
 def homepage(request):
     return render(request, "homepage.html")
 
@@ -16,89 +21,65 @@ def AboutUs(request):
     return render(request, "about-us.html")
 
 
-from django.views.generic import (
-    ListView,
-    DetailView,
-    CreateView,
-    DeleteView,
-    UpdateView,
-)
+# -- Authentication --
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    template_name = "registration/signup.html"
+    success_url = "/auth/login/"
 
 
+# -- Profile CRUD (The Core Requirement) --
 class ProfileCreateView(LoginRequiredMixin, CreateView):
     model = Profile
     form_class = ProfileForm
     template_name = "profiles/profile-form.html"
-    success_url = "/plans/"  # Send them to see their new plan!
+    success_url = "/"
 
     def form_valid(self, form):
-        # Link the profile to the logged-in user
         form.instance.user = self.request.user
         profile = form.save()
-
-        # TRIGGER THE LOGIC: Generate the plan immediately
         generate_user_plan(self.request.user, profile)
-
         return super().form_valid(form)
 
 
-# Update Profile (U in CRUD)
-class ProfileUpdateView(LoginRequiredMixin, UpdateView):
-    model = Profile
-    form_class = ProfileForm
-    template_name = "profiles/profile-form.html"
-    success_url = "/profile/detail/"  # Create a detail view or redirect to home
-
-
-# Delete Profile (D in CRUD)
-class ProfileDeleteView(LoginRequiredMixin, DeleteView):
-    model = Profile
-    template_name = "profiles/profile-confirm-delete.html"
-    success_url = "/"
-
-
-# Detail View (R in CRUD - to see their specific health stats)
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = "profiles/profile-detail.html"
     context_object_name = "profile"
 
 
-class SignUpView(CreateView):
-    template_name = "registration/signup.html"
-    form_class = UserCreationForm
-    success_url = "/auth/login"  # or your home
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = ProfileForm
+    template_name = "profiles/profile-form.html"
+    success_url = "/plans/"
 
-    # class DeveloperCreateView(CreateView):
-    #     model = Developer
-    #     form_class = DeveloperForm
-    #     template_name = "developers/developer-form.html"
-    #     success_url = "/developers/"
-
-    # def form_valid(self, form):
-    #     profile = form.save(commit=False)
-    #     profile.user = self.request.user
-    #     profile.save()
-
-    #     # Generate plan immediately after profile is saved
-    #     generate_user_plan(self.request.user, profile)
-
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+        profile = form.save()
+        # Regenerate plan if they changed their weight/allergies
+        generate_user_plan(self.request.user, profile)
+        return super().form_valid(form)
 
 
-class NutritionPlanListView(ListView):
+class ProfileDeleteView(LoginRequiredMixin, DeleteView):
+    model = Profile
+    success_url = "/"
+
+    # This allows the delete to happen without a separate confirmation page
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+
+# -- Plan Reading --
+class NutritionPlanListView(LoginRequiredMixin, ListView):
     model = NutritionPlan
     template_name = "plans/plan-list.html"
     context_object_name = "plans"
 
 
+# -- THE LOGIC ENGINE --
 def generate_user_plan(user, profile):
-    """
-    Logic to take the 10 questions and turn them into
-    a customized NutritionPlan.
-    """
-
-    # 1. Determine which of the 3 Default Plans they need
+    # 1. Select Template
     if profile.target_weight < profile.current_weight:
         selected_template = DefaultPlan.objects.get(name="weight_loss")
     elif profile.target_weight > profile.current_weight:
@@ -106,35 +87,22 @@ def generate_user_plan(user, profile):
     else:
         selected_template = DefaultPlan.objects.get(name="maintenance")
 
-    # 2. Basic Calorie Calculation (Example: Simple logic)
-    # You can make this more complex using height/weight/age
-    calorie_goal = 2000
-    if selected_template.name == "weight_loss":
-        calorie_goal = 1600
-    elif selected_template.name == "muscle_gain":
-        calorie_goal = 2800
+    # 2. Set Calories
+    calorie_map = {"weight_loss": 1600, "muscle_gain": 2800, "maintenance": 2000}
+    goal_calories = calorie_map.get(selected_template.name, 2000)
 
-    # 3. Create the NutritionPlan instance
-    new_plan = NutritionPlan.objects.create(
-        user=user,
-        parent_plan=selected_template,
-        daily_calorie_target=calorie_goal,
-        special_notes=f"Customized based on {profile.illness_history}",
-    )
+    # 3. Create or Update Plan
+    plan, created = NutritionPlan.objects.get_or_create(user=user)
+    plan.parent_plan = selected_template
+    plan.daily_calorie_target = goal_calories
+    plan.save()
 
-    # 4. FILTERING LOGIC (Medical/Allergy Customization)
-    # Start with all foods in the default template
+    # 4. Filter Foods by Allergies
     safe_foods = selected_template.base_foods.all()
-
-    # If the user listed allergies, exclude those foods
     if profile.allergies:
-        # Splits the comma-separated allergies and removes them from the list
-        allergy_list = [a.strip() for a in profile.allergies.split(",")]
+        allergy_list = [a.strip().lower() for a in profile.allergies.split(",")]
         for allergy in allergy_list:
             safe_foods = safe_foods.exclude(ingredients__icontains=allergy)
-            safe_foods = safe_foods.exclude(name__icontains=allergy)
 
-    # 5. Attach the filtered "Safe Foods" to the User's Plan
-    new_plan.customized_foods.set(safe_foods)
-
-    return new_plan
+    plan.customized_foods.set(safe_foods)
+    return plan

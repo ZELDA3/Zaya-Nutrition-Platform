@@ -17,7 +17,7 @@
             {% if user.profile %}
                 <a href="{% url 'profile_update' user.profile.pk %}">Edit Profile</a>
             {% else %}
-<a href="{% url 'profile' %}">Set Up Profile</a>
+                <a href="{% url 'profile_create' %}">Set Up Profile</a>
             {% endif %}
 
             <span>Welcome, {{ user.username }}</span>

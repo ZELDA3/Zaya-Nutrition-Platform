@@ -5,9 +5,19 @@ urlpatterns = [
     path("", views.homepage),
     path("about/", views.AboutUs),
     path("sign-up/", views.SignUpView.as_view()),
-    path("plans/", views.NutritionPlanListView.as_view()),
-    path("profile/", views.ProfileCreateView.as_view()),
-    path("profile/detail/<int:pk>/", views.ProfileDetailView.as_view()),
-    path("profile/update/<int:pk>/", views.ProfileUpdateView.as_view()),
-    path("profile/delete/<int:pk>/", views.ProfileDeleteView.as_view()),
+    # Profile CRUD
+    path("profile/create/", views.ProfileCreateView.as_view(), name="profile_create"),
+    path("profile/<int:pk>/", views.ProfileDetailView.as_view(), name="profile_detail"),
+    path(
+        "profile/<int:pk>/update/",
+        views.ProfileUpdateView.as_view(),
+        name="profile_update",
+    ),
+    path(
+        "profile/<int:pk>/delete/",
+        views.ProfileDeleteView.as_view(),
+        name="profile_delete",
+    ),
+    # Plans
+    path("plans/", views.NutritionPlanListView.as_view(), name="plan_list"),
 ]
