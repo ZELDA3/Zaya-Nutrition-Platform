@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+
+
+{% endblock head %}
+
+
+
+{% block content %}
+<h2>View Plan Details</h2>
+
+<p>{{plan.daily_calorie_target}} - {{plan.customized_foods}}</p>
+
+{% if plan.daily_calorie_target%}
+<p>Stated in {{plan.daily_calorie_target}} </p>
+{% else %}
+<p>Daily Calories are not Given</p>
+
+{% endif %}
+
+  <a href="/plans/{{plan.pk}}/update/">Update Plan </a>
+    <form method='post' action='/plans/{{plan.pk}}/delete/'>
+        {% csrf_token %}
+        <button> Delete Plan </button>
+
+    </form>
+{% endblock content %}

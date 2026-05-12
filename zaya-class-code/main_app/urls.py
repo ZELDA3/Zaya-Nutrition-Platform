@@ -20,4 +20,16 @@ urlpatterns = [
     ),
     # Plans
     path("plans/", views.NutritionPlanListView.as_view(), name="plan_list"),
+    path(
+        "plans/<int:pk>/",
+        views.NutritionPlanDetailView.as_view(),
+        name="profile_detail",
+    ),
+    path("plans/<int:pk>/update/", views.NutritionPlanUpdateView.as_view()),
+    path(
+        "plans/<int:pk>/delete/",
+        views.NutritionPlanDeleteView.as_view(),
+        name="plan_delete",
+    ),
+    path("groups/", views.GroupListView.as_view()),
 ]

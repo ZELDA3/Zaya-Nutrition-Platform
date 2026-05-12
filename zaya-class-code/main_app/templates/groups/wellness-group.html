@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+
+
+
+{% endblock head %}
+
+
+
+{% block content %}
+
+<h1>Wellness Groups</h1>
+
+
+
+{% for group in groups  %}
+
+<p>Name: {{group.name}}</p>
+<p>Description: {{group.description}}</p>
+<p>Advice: {{group.wellness_advice}}</p>
+
+<hr>
+{% endfor %}
+{% endblock content %}
+
+
+

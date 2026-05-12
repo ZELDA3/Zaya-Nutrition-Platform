@@ -12,7 +12,7 @@
 <h1>All Plans</h1>
 
 {% for plan in plans %}
-<p>{{plan.user}} - {{plan. daily_calorie_target}} - {{plan.special_notes}}</p>
+<p>{{plan.user.username}} - {{plan.daily_calorie_target}} - {{plan.special_notes}}</p>
 <a href="/plans/{{plan.id}}">Look up the Details</a>
 
 

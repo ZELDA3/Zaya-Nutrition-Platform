@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile
+from .models import Profile, NutritionPlan
 
 
 class ProfileForm(forms.ModelForm):
@@ -25,3 +25,15 @@ class ProfileForm(forms.ModelForm):
                 attrs={"rows": 2, "placeholder": "e.g. Peanuts, Shellfish"}
             ),
         }
+
+
+class NutritionPlanForm(forms.ModelForm):
+    class Meta:
+        model = NutritionPlan
+        fields = [
+            "user",
+            "parent_plan",
+            "customized_foods",
+            "daily_calorie_target",
+            "special_notes",
+        ]

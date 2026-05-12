@@ -9,7 +9,7 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile, Group, NutritionPlan, Food, DefaultPlan
-from .forms import ProfileForm
+from .forms import ProfileForm, NutritionPlanForm
 
 
 # -- Basic Views --
@@ -75,6 +75,36 @@ class NutritionPlanListView(LoginRequiredMixin, ListView):
     model = NutritionPlan
     template_name = "plans/plan-list.html"
     context_object_name = "plans"
+
+
+class NutritionPlanDetailView(LoginRequiredMixin, DetailView):
+    model = NutritionPlan
+    template_name = "plans/plan-details.html"
+    context_object_name = "plan"
+
+
+class NutritionPlanUpdateView(LoginRequiredMixin, UpdateView):
+    model = NutritionPlan
+    form_class = NutritionPlanForm
+    template_name = "plans/plan-form.html"
+    success_url = "/plans/"
+
+
+class NutritionPlanDeleteView(LoginRequiredMixin, DeleteView):
+    model = NutritionPlan
+    success_url = "/"
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+
+## the group views
+
+
+class GroupListView(LoginRequiredMixin, ListView):
+    model = Group
+    template_name = "groups/wellness-group.html"
+    context_object_name = "groups"
 
 
 # -- THE LOGIC ENGINE --
