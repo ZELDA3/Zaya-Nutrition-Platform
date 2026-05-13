@@ -5,13 +5,16 @@
 
 
 {% block content %}
-  <h1>Login</h1>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button>Log in</button>
-
-  </form>
+<div class="middle-layout">
+    <div class="form-card">
+        <h1 class="text-center mb-4">Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn-zaya">Log in</button>
+        </form>
+    </div>
+</div>
 {% endblock content %}
 
 
