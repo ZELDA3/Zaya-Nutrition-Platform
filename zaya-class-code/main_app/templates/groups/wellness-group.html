@@ -2,8 +2,52 @@
 
 
 {% block head %}
+<style>
+    /* This targets the paragraphs created by the |linebreaks filter */
+    .advice-feed p {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 15px;
+        border-left: 5px solid var(--zaya-green);
+        margin-bottom: 20px; /* Spacing between every advice */
+        font-size: 1rem;
+        color: #333;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        position: relative;
+        line-height: 1.6;
+    }
 
+    /* Adds a little "user" icon effect to each block */
+    .advice-feed p::before {
+        content: "💬";
+        display: block;
+        margin-bottom: 5px;
+        font-size: 1.2rem;
+    }
 
+    .group-card {
+        background-color: var(--zaya-beige);
+        border: 2px solid var(--zaya-green);
+        border-radius: 15px;
+        width: 100%;
+        max-width: 750px;
+        padding: 30px;
+    }
+
+    .group-title {
+        color: var(--zaya-green);
+        font-weight: bold;
+    }
+
+    .advice-label {
+        font-weight: bold;
+        color: var(--zaya-green);
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+    }
+</style>
 
 {% endblock head %}
 
@@ -11,18 +55,27 @@
 
 {% block content %}
 
-<h1>Wellness Groups</h1>
+<h1 class="text-center my-5"><span class="border-bottom border-success border-3">Wellness Group</span></h1>
 
 
+<div class="middle-layout flex-column">
+{% for group in groups %}
+    <div class="group-card shadow-sm mb-5">
+        <div class="group-header">
+            <h3 class="group-title">{{ group.name }}</h3>
+            <p class="group-desc">{{ group.description }}</p>
+        </div>
 
-{% for group in groups  %}
+        <div class="advice-container">
+            <p class="advice-label">Latest Community Advice:</p>
 
-<p>Name: {{group.name}}</p>
-<p>Description: {{group.description}}</p>
-<p>Advice: {{group.wellness_advice}}</p>
-
-<hr>
-{% endfor %}
+            <div class="advice-feed">
+                {{ group.wellness_advice|linebreaks }}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock content %}
 
 

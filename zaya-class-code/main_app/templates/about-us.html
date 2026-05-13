@@ -3,41 +3,37 @@
 
 {% block head %}
 <style>
-body {
-  background-color: beige;
-}
-h1 {
-  color: burlywood;
-  text-align: center;
-  font-family: Georgia, "Times New Roman", Times, serif;
-}
-p {
-  color: burlywood;
-  font-size: 30px;
-  text-align: center;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-}
-nav a {
-  color: white;
-  font-size: 30px;
-}
+    /* Controls the size of the logo near the title */
+.title-logo {
+        height: 50px; /* Adjust this to make the logo smaller or larger */
+        width: auto;
+        margin-right: 15px; /* Spacing between logo and "ZAYA" text */
+    }
 
-a:hover {
-  color: pink;
-  text-decoration: underline;
-}
-
-
+    .middle-layout p {
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.8;
+        font-size: 1.1rem;
+        color: #444;
+    }
 </style>
 {% endblock head %}
 
-
 {% block content %}
+<div class="header-container text-center my-5">
+    <div class="d-flex align-items-center justify-content-center">
+        <img src="{% static 'images/imagezaya.png' %}" alt="Zaya Logo" class="title-logo">
+        <h1 class="mb-0"><span class="border-bottom border-success border-3">ZAYA</span></h1>
+    </div>
+</div>
 
-<p>  ZAYA is a personalized health and nutrition platform designed to help you nourish your body and mind.
-      We combine expert guidance, tailored meal plans, and holistic wellness insights to empower you to live healthier, feel stronger, and thrive naturally.</p>
-
-<img src="{%static "images/imagezaya.png"%}" alt="">
+<div class="middle-layout flex-column text-center">
+    <p class="lead px-md-5">
+        ZAYA is a personalized health and nutrition platform designed to help you nourish your body and mind.
+        We combine expert guidance, tailored meal plans, and holistic wellness insights to empower you to live healthier, feel stronger, and thrive naturally.
+    </p>
+</div>
 
 {% endblock content %}
 
