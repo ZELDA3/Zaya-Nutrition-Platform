@@ -38,9 +38,8 @@ So what are you waiting for? Join ZAYA today and start your journey!
 #####
 
 
-##### A Trello board was used to keep track of development progress and can be viewed [here][[(https://trello.com/invite/b/69a006ae8a3cc03b2d643fa0/ATTI9da3a134643a9f8a88ee1663a02d9af3AD4FB79E/project-2).](https://trello.com/b/FoHPmX3Q/last-seb-project)](https://trello.com/invite/b/69f9ddce9586e0e2e16a10ff/ATTI7e49388cdbc44ec605fd5ac45cb2dc2d972764C4/last-seb-project)
-##### The project Wireframe [here][(https://www.figma.com/design/g8SFkUtXf5uk8j2oG0rDnV/EstateHub?node-id=0-1&t=JF4WQQyDL2GDva10-1).
-](https://www.figma.com/design/u50vlXhhd6rD53zob2RJR2/Untitled?node-id=0-1&p=f&t=TZ0m2LcoaJLR4Kd5-0)
+##### A Trello board was used to keep track of development progress and can be viewed [here][(https://trello.com/b/FoHPmX3Q/last-seb-project)]
+##### The project Wireframe [here][(https://www.figma.com/design/u50vlXhhd6rD53zob2RJR2/Untitled?node-id=0-1&p=f&t=TZ0m2LcoaJLR4Kd5-0)]
 ***
 
 ### How does the website look like?
