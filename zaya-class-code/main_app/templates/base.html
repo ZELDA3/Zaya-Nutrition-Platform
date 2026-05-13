@@ -4,92 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zaya Nutrition</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --zaya-beige: #F5F5DC;
-            --zaya-green: #2D5A27; /* Dark Green for health */
-        }
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-        /* 1. Background with 25% Opacity */
-        body {
-            background-color: rgba(25, 135, 84, 0.25) !important;
-            min-height: 100vh;
-            color: #333;
-        }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
-        /* 2. Dark Themed Navbar */
-        .navbar {
-            background-color: #1a1a1a !important; /* True Dark Theme */
-            padding: 1rem 2rem;
-        }
-        .navbar-brand, .nav-link, .navbar-text {
-            color: white !important;
-        }
-        .nav-link:hover {
-            color: #D9EAD3 !important;
-        }
-
-        /* 3. Centering Forms (Login/Signup/Profile) */
-        .middle-layout {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 0;
-        }
-
-        .form-card {
-            background-color: var(--zaya-beige);
-            padding: 40px;
-            border-radius: 15px;
-            border: 2px solid var(--zaya-green);
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        /* 4. Green Buttons & Beige Inputs */
-        input, select, textarea {
-            background-color: #fff !important; /* Clean white inside beige card */
-            border: 1px solid var(--zaya-green) !important;
-            border-radius: 5px;
-            padding: 10px;
-        }
-
-        .btn-zaya {
-            background-color: var(--zaya-green);
-            color: white;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: 0.3s ease;
-        }
-        .btn-zaya:hover {
-            background-color: #1e3d1a;
-            color: white;
-            transform: scale(1.02);
-        }
-    </style>
     {% block head %}{% endblock head %}
 </head>
 <body>
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center" href="/">
-       <img src="/media/logo.png" alt="" style="height: 30px; margin-right: 10px;">
-       ZAYA NUTRITION
-    </a>
+    <a class="navbar-brand" href="/">Zaya Nutrition</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav" aria-controls="navbarNav"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
-        <li class="nav-item"><a class="nav-link" href="/foods">Meal Plans</a></li>
-      </ul>
-      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/plans">Nutrition Plan</a>
+        </li>
         {% if user.is_authenticated %}
-          <li class="nav-item"><span class="navbar-text me-3">Welcome, {{ user.username }}</span></li>
+          <li class="nav-item">
+            <a class="nav-link" href="/groups">Wellness Group</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/foods">Meal Plans</a>
+          </li>
           <li class="nav-item">
             {% if user.profile %}
               <a class="nav-link" href="{% url 'profile_update' user.profile.pk %}">Edit Profile</a>
@@ -97,23 +45,34 @@
               <a class="nav-link" href="{% url 'profile_create' %}">Set Up Profile</a>
             {% endif %}
           </li>
+        {% endif %}
+      </ul>
+
+      <ul class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
           <li class="nav-item">
-            <form method="post" action="/auth/logout/">
+            <span class="navbar-text">Welcome, {{ user.username }}</span>
+          </li>
+          <li class="nav-item">
+            <form method="post" action="/auth/logout/" style="display:inline;">
               {% csrf_token %}
-              <button class="btn btn-outline-light btn-sm ms-2" type="submit">Log Out</button>
+              <button class="btn btn-link nav-link" type="submit">Log Out</button>
             </form>
           </li>
         {% else %}
-          <li class="nav-item"><a class="nav-link" href="/auth/login">Login</a></li>
-          <li class="nav-item"><a class="nav-link" href="/sign-up">Signup</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/sign-up">Signup</a>
+          </li>
         {% endif %}
       </ul>
     </div>
   </div>
 </nav>
 
-<div class="container">
-    {% block content %}{% endblock content %}
-</div>
+    <hr> {% block content %}
+    {% endblock content %}
 </body>
 </html>

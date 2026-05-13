@@ -1,58 +1,88 @@
 {% extends "base.html" %}
 
-{% block content %}
-<h1 class="text-center my-5"><span class="border-bottom border-success border-3">Our Meals</span></h1>
 
+{% block head %}
+
+<style>
+    /* 1. Ensure the Grid has enough space */
+    .meal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+        padding: 40px 0;
+    }
+
+    /* 2. The Card Styling */
+    .meal-card {
+        background: #ffffff; /* Explicitly white so text stands out */
+        border-radius: 15px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: 0.3s ease;
+        border-bottom: 5px solid var(--zaya-green);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    /* 3. The Text (Ensure it's visible) */
+    .meal-body {
+        padding: 20px;
+        color: #333333 !important; /* Force dark text on white card */
+        flex-grow: 1;
+    }
+
+    .meal-body h5 {
+        color: var(--zaya-green);
+        font-weight: bold;
+    }
+
+    /* 4. The "Invisible" Link Fix */
+    .btn-zaya-sm {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background-color: var(--zaya-green) !important;
+        color: #ffffff !important; /* Force white text */
+        text-decoration: none !important;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 15px;
+        font-weight: bold;
+    }
+
+    .btn-zaya-sm:hover {
+        background-color: #1e3d1a !important;
+        color: #ffffff !important;
+    }
+</style>
+
+
+{% endblock head %}
+
+
+
+{% block content %}
+
+<h1 class="text-center my-5"><span class="border-bottom border-success border-3">Our Meals</span></h1>
 <div class="meal-grid">
-    {% for food in foods %}
+
+{% for food in foods %}
     <div class="meal-card">
         <div class="meal-image">
-            <img src="/media/{{food.image}}" alt="{{food.name}}">
+            <img src="/media/{{food.image}}" alt="{{food.name}}" style="width:100%; height:200px; object-fit:cover;">
         </div>
         <div class="meal-body">
-            <h5>{{food.name}}</h5>
-            <p class="meal-cals">{{food.calories}} kcal</p>
-            <p class="meal-ingredients">{{food.ingredients|truncatechars:60}}</p>
+            <h5>{{ food.name }}</h5>
+            <p class="meal-cals"><strong>{{ food.calories }}</strong> kcal</p>
+
+            <p class="meal-ingredients">{{ food.ingredients }}</p>
+
             <a href="/plans/" class="btn-zaya-sm">Add To Plan</a>
         </div>
     </div>
     {% endfor %}
 </div>
+{% endblock content %}
 
-<style>
-    .meal-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 30px;
-        padding-bottom: 50px;
-    }
-    .meal-card {
-        background: white;
-        border-radius: 15px;
-        overflow: hidden;
-        transition: 0.4s ease;
-        border-bottom: 5px solid var(--zaya-green); /* Border bottom applied */
-    }
-    .meal-card:hover {
-        transform: translateY(-10px); /* Hover applied */
-        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-    }
-    .meal-image img {
-        width: 100%;
-        height: 220px;
-        object-fit: cover;
-    }
-    .meal-body {
-        padding: 20px;
-    }
-    .btn-zaya-sm {
-        background: var(--zaya-green);
-        color: white;
-        text-decoration: none;
-        padding: 8px 15px;
-        display: inline-block;
-        border-radius: 5px;
-        font-size: 0.9rem;
-    }
-</style>
-{% endblock %}
+
+
