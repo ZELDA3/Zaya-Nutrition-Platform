@@ -11,57 +11,66 @@
     {% block head %}{% endblock head %}
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="/">Zaya Nutrition</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav" aria-controls="navbarNav"
+            aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link" href="/about">About Us</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+          <a class="nav-link" href="/plans">Nutrition Plan</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/groups">Wellness Group</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/foods">Meal Plans</a>
+          </li>
+          <li class="nav-item">
+            {% if user.profile %}
+              <a class="nav-link" href="{% url 'profile_update' user.profile.pk %}">Edit Profile</a>
+            {% else %}
+              <a class="nav-link" href="{% url 'profile_create' %}">Set Up Profile</a>
+            {% endif %}
+          </li>
+        {% endif %}
+      </ul>
+
+      <ul class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <span class="navbar-text">Welcome, {{ user.username }}</span>
+          </li>
+          <li class="nav-item">
+            <form method="post" action="/auth/logout/" style="display:inline;">
+              {% csrf_token %}
+              <button class="btn btn-link nav-link" type="submit">Log Out</button>
+            </form>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/sign-up">Signup</a>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </div>
 </nav>
-    <nav>
-        <a href="/">Homepage</a>
-        <a href="/about">About Us</a>
-
-        {% if user.is_authenticated %}
-            <a href="/plans">Nutrition Plan</a>
-            <a href="/groups">Wellness Group</a>
-            <a href="/foods">Meal Plans</a>
-
-            {% if user.profile %}
-                <a href="{% url 'profile_update' user.profile.pk %}">Edit Profile</a>
-            {% else %}
-                <a href="{% url 'profile_create' %}">Set Up Profile</a>
-            {% endif %}
-
-            <span>Welcome, {{ user.username }}</span>
-
-            <form method="post" action="/auth/logout/" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit">Log Out</button>
-            </form>
-        {% else %}
-            <a href="/auth/login">Login</a>
-            <a href="/sign-up">Signup</a>
-        {% endif %}
-    </nav>
 
     <hr> {% block content %}
     {% endblock content %}
