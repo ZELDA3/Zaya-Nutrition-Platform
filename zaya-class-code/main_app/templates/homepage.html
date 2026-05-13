@@ -2,21 +2,57 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{%static "css/about.css"%}">
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+<style>
+    /* 1. Logo Styling: Centers the logo and gives it a reasonable size */
+    .logo-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .title-logo {
+        height: 250px; /* Adjusted from 400px for better balance */
+        width: auto;
+    }
+
+    /* 2. Paragraph Styling: Centered and readable */
+    .middle-layout {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .middle-layout p {
+        max-width: 800px; /* Changed from 100px so it spans the middle of the page */
+        margin: 0 auto;
+        line-height: 0;
+        font-size: 1.8rem; /* Clean, bold statement size */
+        color: brown; /* Using your theme green */
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    /* Optional: Add a subtle border like your other pages */
+    .slogan-border {
+        border-bottom: 3px solid var(--zaya-green);
+        display: inline-block;
+        padding-bottom: 10px;
+    }
+</style>
 {% endblock head %}
 
-
 {% block content %}
+<div class="container mt-5">
+    <div class="logo-container">
+        <img src="{% static 'images/imagezaya.png' %}" alt="Zaya Logo" class="title-logo">
+    </div>
 
-
-<h1>ZAYA – Your Path to Balanced Living </h1>
-<img src="{%static "images/imagezaya.png"%}" alt="">
-
-
+    <div class="middle-layout">
+        <p class="px-md-5">
+            <span class="slogan-border">ZAYA: YOUR PATH TO A BALANCED LIVING</span>
+        </p>
+    </div>
+</div>
 {% endblock content %}
-
-
-
-
-
-

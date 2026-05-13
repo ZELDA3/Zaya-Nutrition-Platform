@@ -1,16 +1,94 @@
 {% extends "base.html" %}
+{% load static %}
 
 
 
 {% block head %}
+<style>
+    .middle-layout {
+        display: flex;
+        align-items: center;
+        padding-bottom: 50px;
+    }
 
+    .plan-card {
+        background-color: var(--zaya-beige);
+        border: 2px solid var(--zaya-green);
+        border-radius: 15px;
+        width: 100%;
+        max-width: 700px;
+        padding: 40px; /* Increased padding for better centering */
+        transition: transform 0.3s ease;
+    }
+
+    .plan-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .plan-user {
+        color: var(--zaya-green);
+        font-weight: bold;
+    }
+
+    .calorie-badge {
+        background: #ffffff;
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-weight: bold;
+        color: var(--zaya-green);
+        border: 1px solid var(--zaya-green);
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    .notes-label {
+        font-weight: bold;
+        color: var(--zaya-green);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+    }
+
+    /* Centered styling without the "comment bubble" border */
+    .notes-content-centered {
+        background: rgba(255, 255, 255, 0.6); /* Semi-transparent white */
+        padding: 25px;
+        border-radius: 12px;
+        color: #444;
+        font-style: italic;
+        line-height: 1.8;
+        font-size: 1.1rem;
+        border: 1px dashed var(--zaya-green); /* Subtle border instead of the thick left one */
+        text-align: center;
+    }
+
+    .btn-zaya-outline {
+        border: 2px solid var(--zaya-green);
+        color: var(--zaya-green);
+        background: transparent;
+        padding: 12px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .btn-zaya-outline:hover {
+        background: var(--zaya-green);
+        color: white;
+    }
+</style>
 
 {% endblock head %}
 
 
 {% block content %}
-<h1>All Plans</h1>
+<h1 class="text-center my-5"><span class="border-bottom border-success border-3">ALL PLANS</span></h1>
 
+
+<div class="middle-layout flex-column">
 {% for plan in plans %}
 <p>{{plan.user.username}} - {{plan.daily_calorie_target}} - {{plan.special_notes}}</p>
 <a href="/plans/{{plan.id}}">Look up the Details</a>
